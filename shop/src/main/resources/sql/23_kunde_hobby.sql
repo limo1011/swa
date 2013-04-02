@@ -1,0 +1,72 @@
+-- ===============================================================================
+-- Jede SQL-Anweisung muss in genau 1 Zeile
+-- Kommentare durch -- am Zeilenanfang
+-- ===============================================================================
+
+
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (101,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (101,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (102,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (102,2);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (105,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (105,2);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (120,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (120,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (121,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (121,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (122,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (122,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (123,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (123,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (124,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (124,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (125,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (125,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (126,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (126,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (127,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (127,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (128,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (128,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (129,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (129,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (130,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (130,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (131,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (131,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (132,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (132,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (133,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (133,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (134,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (134,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (135,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (135,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (136,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (136,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (140,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (140,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (141,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (141,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (142,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (142,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (143,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (143,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (144,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (144,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (145,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (145,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (146,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (146,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (147,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (147,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (148,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (148,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (149,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (149,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (150,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (150,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (151,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (151,1);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (152,0);
+INSERT INTO kunde_hobby (kunde_fk, hobby_fk) VALUES (152,1);
