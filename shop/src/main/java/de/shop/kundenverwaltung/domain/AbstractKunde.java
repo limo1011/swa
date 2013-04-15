@@ -293,7 +293,8 @@ public abstract class AbstractKunde implements Serializable, Cloneable {
 	@CollectionTable(name = "kunde_rolle",
 	                 joinColumns = @JoinColumn(name = "kunde_fk", nullable = false),
 	                 uniqueConstraints =  @UniqueConstraint(columnNames = { "kunde_fk", "rolle_fk" }))
-	@Column(table = "kunde_rolle", name = "rolle_fk", nullable = false)
+	//@Column(table = "kunde_rolle", name = "rolle_fk", nullable = false)
+	@Column(name="rolle_fk", nullable = false)
 	private Set<RolleType> rollen;
 	
 	@OneToOne(fetch = LAZY, cascade = { PERSIST, REMOVE })
