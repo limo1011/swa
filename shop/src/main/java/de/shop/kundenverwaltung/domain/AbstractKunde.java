@@ -254,6 +254,7 @@ public abstract class AbstractKunde implements Serializable, Cloneable {
 	@JsonIgnore
 	private String passwordWdh;
 
+//
 //  siehe @ScriptAssert
 //	@AssertTrue(/*groups = PasswordGroup.class,*/ message = "{kundenverwaltung.kunde.password.notEqual}")
 //	public boolean isPasswortEqual() {
