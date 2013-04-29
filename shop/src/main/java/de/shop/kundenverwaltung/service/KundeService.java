@@ -1,5 +1,7 @@
 package de.shop.kundenverwaltung.service;
 
+import static javax.ejb.TransactionAttributeType.MANDATORY;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
@@ -9,6 +11,9 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -46,7 +51,9 @@ import de.shop.util.NoMimeTypeException;
 import de.shop.util.FileHelper.MimeType;
 import de.shop.util.ValidatorProvider;
 
-
+//@Stateless
+//@TransactionAttribute(MANDATORY)
+//@RolesAllowed({"admin","mitarbeiter","kunde"})
 @Log
 public class KundeService implements Serializable {
 	private static final long serialVersionUID = 5654417703891549367L;
@@ -448,6 +455,7 @@ public class KundeService implements Serializable {
 
 	/**
 	 */
+
 	public void deleteKundeById(Long kundeId) {
 		AbstractKunde kunde;
 		try {

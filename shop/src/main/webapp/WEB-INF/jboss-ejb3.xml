@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<jboss:jboss xmlns:jboss="http://www.jboss.com/xml/ns/javaee" 
+<jboss:ejb-jar xmlns:jboss="http://www.jboss.com/xml/ns/javaee" 
                xmlns="http://java.sun.com/xml/ns/javaee"
                xmlns:s="urn:security"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8,11 +8,9 @@
                version="3.1"
                impl-version="2.0">
 	<assembly-descriptor>
-	    <!--
-		<s:security>
+	<!--	<s:security>
 			<ejb-name>*</ejb-name>
 			<s:security-domain>shop</s:security-domain>
-		</s:security>
-		-->
+		</s:security> -->
 	</assembly-descriptor>
-</jboss:jboss>
+</jboss:ejb-jar>
