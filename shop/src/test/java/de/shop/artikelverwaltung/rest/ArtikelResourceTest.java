@@ -4,6 +4,9 @@ import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestConstants.ARTIKEL_BEZEICHNUNG_QUERY_PARAM;
+import static de.shop.util.TestConstants.ARTIKEL_PATH;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,8 +14,10 @@ import static org.junit.Assert.assertThat;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 import java.util.logging.Logger;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
@@ -32,6 +37,8 @@ public class ArtikelResourceTest extends AbstractResourceTest{
 	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(300);
+	private static final Long ARTIKEL_ID_NICHT_VORHANDEN = Long.valueOf(1000);
+	private static final String BEZEICHNUNG_VORHANDEN = "Tisch 'Oval'";
 	
 	@Test
 	public void findArtikelById() {
@@ -54,6 +61,52 @@ public class ArtikelResourceTest extends AbstractResourceTest{
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
 		}
 		
+		LOGGER.finer("ENDE");
+	}
+	
+	
+	@Test
+	public void findArtikelByIdNichtVorhanden() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_NICHT_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                         .get(ARTIKEL_ID_PATH);
+
+    	// Then
+    	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+		LOGGER.finer("ENDE");
+	}
+	
+	
+	@Test
+	public void findArtikelByBezeichnungVorhanden() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final String bezeichnung = BEZEICHNUNG_VORHANDEN;
+
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .queryParam(ARTIKEL_BEZEICHNUNG_QUERY_PARAM, bezeichnung)
+                                         .get(ARTIKEL_PATH);
+		
+		// Then
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonArray jsonArray = jsonReader.readArray();
+	    	assertThat(jsonArray.size() > 0, is(true));
+	    	
+	    	final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+	    	for (JsonObject jsonObject : jsonObjectList) {
+	    		assertThat(jsonObject.getString("bezeichnung"), is(bezeichnung));
+	    	}
+		}
+
 		LOGGER.finer("ENDE");
 	}
 
