@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
@@ -26,6 +27,8 @@ import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jboss.logging.Logger;
+
+import de.shop.kundenverwaltung.domain.AbstractKunde;
 
 
 @Entity
@@ -86,6 +89,17 @@ public class Artikel implements Serializable {
 	@Temporal(TIMESTAMP)
 	@JsonIgnore
 	private Date aktualisiert;
+	
+	public void setValues(Artikel a) {
+		version = a.version;
+		bezeichnung = a.bezeichnung;
+		ausgesondert = a.ausgesondert;
+	}
+	
+	@PrePersist
+	private void prePersist(){
+		aktualisiert = new Date();
+	}
 
 	@PostPersist
 	private void postPersist() {
