@@ -28,8 +28,6 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jboss.logging.Logger;
 
-import de.shop.kundenverwaltung.domain.AbstractKunde;
-
 
 @Entity
 @Table(name = "artikel")

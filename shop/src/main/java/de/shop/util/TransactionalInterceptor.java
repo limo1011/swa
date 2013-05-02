@@ -22,7 +22,6 @@ import org.jboss.logging.Logger;
 
 @Transactional
 @Interceptor
-// TODO Entfaellt ab JTA 1.2 (Java EE 7)
 public class TransactionalInterceptor implements Serializable {
 	private static final long serialVersionUID = 5962891407714952654L;
 	

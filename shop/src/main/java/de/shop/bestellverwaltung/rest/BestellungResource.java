@@ -97,7 +97,6 @@ public class BestellungResource {
 		final Locale locale = localeHelper.getLocale(headers);
 		final Bestellung bestellung = bs.findBestellungById(id, FetchType.NUR_BESTELLUNG, locale);
 		if (bestellung == null) {
-			// TODO msg passend zu locale
 			final String msg = "Keine Bestellung gefunden mit der ID " + id;
 			throw new NotFoundException(msg);
 		}
@@ -120,7 +119,6 @@ public class BestellungResource {
 		final Locale locale = localeHelper.getLocale(headers);
 		AbstractKunde kunde = bs.findKundeById(id, locale);
 		if (kunde == null) {
-			// TODO msg passend zu locale
 			final String msg = "Keine Bestellung gefunden mit der ID " + id;
 			throw new NotFoundException(msg);
 		}
@@ -157,7 +155,6 @@ public class BestellungResource {
 	                                      .build();
 		throw new WebApplicationException(response);
 		
-		// TODO findLieferungenByBestellungId noch nicht implementiert
 	}
 
 	
@@ -214,7 +211,6 @@ public class BestellungResource {
 		
 		final List<Artikel> gefundeneArtikel = as.findArtikelByIds(artikelIds);
 		if (gefundeneArtikel.isEmpty()) {
-			// TODO msg passend zu locale
 			throw new NotFoundException("Keine Artikel gefunden mit den IDs " + artikelIds);
 		}
 		

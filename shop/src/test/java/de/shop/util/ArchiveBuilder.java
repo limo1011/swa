@@ -61,7 +61,6 @@ public enum ArchiveBuilder {
 		if (jbossDeploymentStructureXml.exists()) {
 			archive.addAsWebInfResource(jbossDeploymentStructureXml);
 		}
-		// TODO MANIFEST.MF fuer Web-Archiv kann nicht mit ShrinkWrap gesetzt werden
 //		else {
 //			archive.addAsManifestResource(new StringAsset("Manifest-Version: 1.0\n"
 //			                              + "Dependencies: org.jboss.as.controller-client,org.jboss.dmr"),

@@ -4,7 +4,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
-import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -22,8 +21,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
-import de.shop.kundenverwaltung.domain.AbstractKunde;
-import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.LocaleHelper;
 
 import org.jboss.logging.Logger;
@@ -119,7 +116,6 @@ public class ArtikelResource {
 		// Vorhandenen Kunden ermitteln
 		final Artikel origArtikel = as.findArtikelById(artikel.getId());
 		if (origArtikel == null) {
-			// TODO msg passend zu locale
 			final String msg = "Kein Artikel gefunden mit der ID " + artikel.getId();
 			throw new NotFoundException(msg);
 		}

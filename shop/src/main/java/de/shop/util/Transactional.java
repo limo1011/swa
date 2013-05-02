@@ -14,6 +14,5 @@ import javax.interceptor.InterceptorBinding;
 @InterceptorBinding
 @Target({ TYPE, METHOD })
 @Retention(RUNTIME)
-//TODO Bestandteil von javax.transaction ab JTA (= Java Transaction API) 1.2 (JavaEE 7)
 public @interface Transactional {
 }

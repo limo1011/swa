@@ -71,20 +71,20 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_DELETE = Long.valueOf(122);
 	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(101);
 	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(101);
-	private static final String NACHNAME_VORHANDEN = "Alpha";
-	private static final String NACHNAME_NICHT_VORHANDEN = "Falschername";
-	private static final String NEUER_NACHNAME = "Nachnameneu";
+	private static final String NACHNAME_VORHANDEN = "Lieb";
+	private static final String NACHNAME_NICHT_VORHANDEN = "Schmitt";
+	private static final String NEUER_NACHNAME = "Knast";
 	private static final String NEUER_NACHNAME_INVALID = "!";
-	private static final String NEUER_VORNAME = "Vorname";
+	private static final String NEUER_VORNAME = "Herbert";
 	private static final String NEUE_EMAIL = NEUER_NACHNAME + "@test.de";
 	private static final String NEUE_EMAIL_INVALID = "falsch@falsch";
 	private static final short NEUE_KATEGORIE = 1;
 	private static final BigDecimal NEUER_RABATT = new BigDecimal("0.15");
 	private static final BigDecimal NEUER_UMSATZ = new BigDecimal(10_000_000);
 	private static final String NEU_SEIT = "2000-01-31";
-	private static final String NEUE_PLZ = "76133";
-	private static final String NEUER_ORT = "Karlsruhe";
-	private static final String NEUE_STRASSE = "Testweg";
+	private static final String NEUE_PLZ = "69168";
+	private static final String NEUER_ORT = "Wiesloch";
+	private static final String NEUE_STRASSE = "Neuestraﬂe";
 	private static final String NEUE_HAUSNR = "1";
 	
 	private static final String FILENAME = "image.gif";
@@ -311,7 +311,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
-		// TODO einzelne Meldungen durch Bean Validation ueberpruefen
+		
 		assertThat(response.asString().isEmpty(), is(false));
 		
 		LOGGER.finer("ENDE");
