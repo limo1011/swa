@@ -95,7 +95,7 @@ public class Artikel implements Serializable {
 	}
 	
 	@PrePersist
-	private void prePersist(){
+	private void prePersist() {
 		aktualisiert = new Date();
 	}
 

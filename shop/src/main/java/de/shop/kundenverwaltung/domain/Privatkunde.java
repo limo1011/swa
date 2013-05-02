@@ -34,7 +34,7 @@ public class Privatkunde extends AbstractKunde {
 	                 joinColumns = @JoinColumn(name = "kunde_fk", nullable = false),
 	                 uniqueConstraints =  @UniqueConstraint(columnNames = { "kunde_fk", "hobby_fk" }))
 	//@Column(table = "kunde_hobby", name = "hobby_fk", nullable = false)
-	@Column(name = "hobby_fk",nullable = false)
+	@Column(name = "hobby_fk", nullable = false)
 	private Set<HobbyType> hobbies;
 	
 	public Privatkunde() {

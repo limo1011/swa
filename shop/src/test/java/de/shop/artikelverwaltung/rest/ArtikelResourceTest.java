@@ -36,13 +36,13 @@ import de.shop.util.AbstractResourceTest;
 
 @RunWith(Arquillian.class)
 
-public class ArtikelResourceTest extends AbstractResourceTest{
+public class ArtikelResourceTest extends AbstractResourceTest {
 	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(300);
 	private static final Long ARTIKEL_ID_NICHT_VORHANDEN = Long.valueOf(1000);
 	private static final String BEZEICHNUNG_VORHANDEN = "Malm 'Weiﬂ'";
-	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(301) ;
+	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(301);
 	private static final String NEUE_BEZEICHNUNG = "Tisch schwarz";
 	
 	@Test
