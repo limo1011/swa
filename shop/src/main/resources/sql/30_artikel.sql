@@ -3,7 +3,7 @@
 -- Kommentare durch -- am Zeilenanfang
 -- ===============================================================================
 
-INSERT INTO artikel (id, version, bezeichnung, ausgesondert, erzeugt, aktualisiert) VALUES (300,0,'Malm ''Weiﬂ''',0,'01.01.2007 01:00:00','01.01.2007 01:00:00');
+INSERT INTO artikel (id, version, bezeichnung, ausgesondert, erzeugt, aktualisiert) VALUES (300,0,'Malm ''Weiss''',0,'01.01.2007 01:00:00','01.01.2007 01:00:00');
 INSERT INTO artikel (id, version, bezeichnung, ausgesondert, erzeugt, aktualisiert) VALUES (301,0,'Bjursta ''groﬂ''',0,'01.01.2007 02:00:00','01.01.2007 02:00:00');
 INSERT INTO artikel (id, version, bezeichnung, ausgesondert, erzeugt, aktualisiert) VALUES (302,0,'Pax ''Hoch und breit''',0,'01.01.2007 03:00:00','01.01.2007 03:00:00');
 INSERT INTO artikel (id, version, bezeichnung, ausgesondert, erzeugt, aktualisiert) VALUES (303,0,'Expedit ''Hochglanz''',0,'01.01.2007 04:00:00','01.01.2007 04:00:00');
