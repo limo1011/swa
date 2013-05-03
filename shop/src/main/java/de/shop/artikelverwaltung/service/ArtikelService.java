@@ -3,6 +3,7 @@ package de.shop.artikelverwaltung.service;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -14,12 +15,19 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.validation.groups.Default;
 
 import org.jboss.logging.Logger;
 
 import com.google.common.base.Strings;
 
 import de.shop.artikelverwaltung.domain.Artikel;
+import de.shop.kundenverwaltung.domain.AbstractKunde;
+import de.shop.kundenverwaltung.domain.PasswordGroup;
+import de.shop.kundenverwaltung.service.EmailExistsException;
+import de.shop.kundenverwaltung.service.InvalidKundeIdException;
+import de.shop.kundenverwaltung.service.KundeDeleteBestellungException;
+import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
 
@@ -125,6 +133,7 @@ public class ArtikelService implements Serializable {
 	}
 	
 	
+	
 	public Artikel updateArtikel(Artikel artikel) {
 			if (artikel == null) {
 				return null;
@@ -142,9 +151,8 @@ public class ArtikelService implements Serializable {
 			artikel = em.merge(artikel);   // OptimisticLockException
 
 
-return artikel;
-}
-	
+			return artikel;
+	}
 	
 	
 }

@@ -6,6 +6,8 @@ import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_BEZEICHNUNG_QUERY_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
+import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
+import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -44,6 +46,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final String BEZEICHNUNG_VORHANDEN = "Malm 'Weiss'";
 	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(301);
 	private static final String NEUE_BEZEICHNUNG = "Tisch schwarz";
+	private static final Long ARTIKEL_ID_DELETE = Long.valueOf(300);
 	
 	@Test
 	public void findArtikelById() {
@@ -160,5 +163,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
    	}
+	
+
 
 }
