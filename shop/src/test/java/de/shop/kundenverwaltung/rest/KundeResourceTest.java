@@ -103,12 +103,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(true, is(true));
 	}
 	
-	@Ignore
-	@Test
-	public void notYetImplemented() {
-		fail();
-	}
-	
+
 	@Test
 	public void findKundeById() {
 		LOGGER.finer("BEGINN");
