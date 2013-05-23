@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+	<rich:toolbar id="headerToolbar" height="65px">
+    	<h:outputLink id="homeLink" value="#{request.contextPath}">
+			<h:graphicImage id="hsLogoImage"
+		    	            name="hs-logo.gif"
+		        	        library="images"
+		            	    alt="#{msg['header.logo.alt']}"/>
+		</h:outputLink>
+
+		<h:form id="schnellsucheForm">
+			<rich:dropDownMenu id="schnellsucheMenu">
+				<f:facet name="label">
+					#{msg['header.schnellsuche']}
+				</f:facet>
+
+				<rich:menuItem id="schnellsucheItem">
+					<h:panelGrid id="schnellsucheGrid" columns="3">
+						<h:outputLabel id="artikelBezLabel"
+						               value="#{msg['header.schnellsuche.artikelBezeichnung']}"
+						               for="artikelBezeichnung"/>
+						<h:inputText id="artikelBezeichnung" value="#{ac.bezeichnung}"/>
+						<h:commandButton id="artikelButton" action="#{ac.findArtikelByBezeichnung}" value="#{msg['header.schnellsuche.button']}"/>
+
+						<h:outputLabel id="kundeIdLabel"
+						               value="#{msg['header.schnellsuche.kundeid']}"
+						               for="kundeId"/>
+						<h:inputText id="kundeId" value="#{kc.kundeId}"/>
+						<h:commandButton id="kundeButton" action="#{kc.findKundeById}" value="#{msg['header.schnellsuche.button']}"/>
+					</h:panelGrid>
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form>
+				
+		<rich:toolbarGroup id="rightGroup" location="right">
+			<h:form id="loginFormHeader" rendered="#{not auth.loggedIn}">
+				<h:panelGrid id="loginGrid" columns="3">
+					<h:outputLabel id="usernameLabel"
+					               value="#{msg['login.kundeId']}"
+					               for="username"/>
+					<h:inputText id="username" value="#{auth.username}"/>
+					<f:verbatim/>
+							
+					<h:outputLabel id="passwordLabel"
+					               value="#{msg['login.password']}"
+					               for="password"/>
+					<h:inputSecret id="password" value="#{auth.password}"/>
+					<h:commandButton id="loginButton" action="#{auth.login}" value="#{msg['login.submit']}"/>
+				</h:panelGrid>
+				<rich:message id="fehlermeldungLogin" for="username"/>
+			</h:form>
+
+			<h:form id="spracheForm">
+				<rich:dropDownMenu id="sprache">
+					<f:facet name="label">
+						#{msg['header.sprache']}
+					</f:facet>
+					
+					<rich:menuItem id="englisch"
+					               label="#{msg['header.sprache.englisch']}"
+					               actionListener="#{sprache.change('en')}"/>
+					<rich:menuItem id="deutsch"
+					               label="#{msg['header.sprache.deutsch']}"
+					               actionListener="#{sprache.change('de')}"/>
+				</rich:dropDownMenu>
+			</h:form>
+
+			<h:form id="warenkorbFormHeader">
+				<rich:dropDownMenu id="warenkorb">
+					<f:facet name="label">
+						<h:graphicImage id="warenkorbImage"
+			    	                    name="warenkorb.gif"
+			        	                library="images"
+			            	            alt="#{msg['header.warenkorb.alt']}"/>
+					</f:facet>
+					
+					<rich:menuItem id="warenkorbItemEmpty" label="#{msg['header.warenkorb.empty']}" rendered="#{empty wk.positionen}"/>
+					
+					<rich:menuItem id="warenkorbItem" rendered="#{not empty wk.positionen}">
+						<rich:dataTable id="warenkorbTabelle"
+						                value="#{wk.positionen}"
+						                var="position"
+						                rowClasses="odd-row, even-row"
+						                styleClass="tabelleMitZebrastil">
+							<rich:column id="artikelIdSpalte">
+								<f:facet name="header">
+									#{msgBv['viewWarenkorb.artikel.id']}
+								</f:facet>
+								#{position.artikel.id}
+							</rich:column>
+								
+							<rich:column id="bezeichnungSpalte">
+								<f:facet name="header">
+									#{msgBv['viewWarenkorb.artikel.bezeichnung']}
+								</f:facet>
+								#{position.artikel.bezeichnung}
+							</rich:column>
+					
+							<rich:column id="anzahlSpalte">
+								<f:facet name="header">
+									#{msgBv['viewWarenkorb.anzahl']}
+								</f:facet>
+								
+								<rich:inputNumberSpinner id="anzahl"
+				                                         value="#{position.anzahl}"
+				                                         minValue="0"
+				                                         maxValue="99"
+				                                         inputSize="2"/>
+							</rich:column>
+							
+							<rich:column id="deleteButton">
+								<h:commandButton image="#{resource['images:delete.gif']}"
+										         action="#{wk.remove(position)}"
+										         alt="#{msgBv['viewWarenkorb.deleteButtonAlt']}"/>
+							</rich:column>
+						</rich:dataTable>
+						
+						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+							<rich:jQuery id="odd"
+							             selector=".tabelleMitZebrastil tr:odd"
+							             query="addClass('odd-row')"
+							             timing="domready"/>
+							<rich:jQuery id="even"
+							             selector=".tabelleMitZebrastil tr:even"
+							             query="addClass('even-row')"
+							             timing="domready"/>
+							<rich:jQuery id="mouseover"
+							             selector=".tabelleMitZebrastil tr"
+							             event="mouseover"
+							             query="jQuery(this).addClass('active-row')"
+							             timing="domready"/>
+							<rich:jQuery id="mouseout"
+							             selector=".tabelleMitZebrastil tr"
+							             event="mouseout"
+							             query="jQuery(this).removeClass('active-row')"
+							             timing="domready"/>
+						</a4j:outputPanel>
+						
+						<p id="buttonsWarenkorb">
+							<h:commandButton id="updateButton"
+				                             action="#"
+				                             value="#{msgBv['viewWarenkorb.update']}"/>
+							<h:commandButton type="reset" value="#{msgBv['viewWarenkorb.reset']}"/>
+							#{' '}
+							<h:commandButton id="bestellButton"
+											 action="#{bc.bestellen}"
+									         value="#{msgBv['viewWarenkorb.bestellen']}"
+									         rendered="#{auth.loggedIn}"/>
+							<rich:message id="bestellButtonFehlermeldung"
+							              for="bestellButton"/>
+						</p>
+					</rich:menuItem>
+				</rich:dropDownMenu>
+			</h:form>
+
+			<h:form id="logoutForm">
+				<h:commandLink id="logout" action="#{auth.logout}" rendered="#{auth.loggedIn}">
+					#{msg['header.logout']}
+				</h:commandLink>
+			</h:form>
+		</rich:toolbarGroup>
+		
+	</rich:toolbar>
+</ui:composition>

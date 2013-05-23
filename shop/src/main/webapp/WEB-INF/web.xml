@@ -83,7 +83,7 @@
   <context-param>
     <description>Maximum: 2147483647 = 2 GB - 1. Siehe https://jira.jboss.org/jira/browse/RF-6590</description>
     <param-name>org.richfaces.fileUpload.maxRequestSize</param-name>
-    <param-value>5000000</param-value>
+    <param-value>10000000</param-value>
   </context-param>
   <context-param>
     <description>Alternativen: blueSky, classic, deepMarine, emeraldTown, japanCherry, ruby, wine</description>
@@ -94,6 +94,16 @@
     <description>Mapping fuer XML, JSON usw.</description>
     <param-name>resteasy.use.builtin.providers</param-name>
     <param-value>true</param-value>
+  </context-param>
+  <context-param>
+    <description>https://github.com/Atmosphere/atmosphere/wiki/Understanding-BroadcasterCache</description>
+    <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
+    <param-value>org.atmosphere.cache.HeaderBroadcasterCache</param-value>
+  </context-param>
+  <context-param>
+    <description>https://github.com/Atmosphere/atmosphere/wiki/Understanding-AtmosphereInterceptor</description>
+    <param-name>org.atmosphere.cpr.AtmosphereInterceptor</param-name>
+    <param-value>org.atmosphere.client.TrackMessageSizeInterceptor</param-value>
   </context-param>
   <context-param>
     <description>Context fuer Datei-Upload</description>
@@ -191,16 +201,48 @@
   </login-config>
   <security-constraint>
     <web-resource-collection>
-      <web-resource-name>shopAdminTaetigkeiten</web-resource-name>
+      <web-resource-name>shopKundeTaetigkeiten</web-resource-name>
+      <url-pattern>/bestellverwaltung/confirmBestellung.jsf</url-pattern>
+      <url-pattern>/bestellverwaltung/confirmBestellung.faces</url-pattern>
+      <url-pattern>/faces/bestellverwaltung/confirmBestellung.xhtml</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>*</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>shopMitarbeiterTaetigkeiten</web-resource-name>
       <url-pattern>/kundenverwaltung/createPrivatkunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/createPrivatkunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/createPrivatkunde.xhtml</url-pattern>
       <url-pattern>/kundenverwaltung/updatePrivatkunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/updatePrivatkunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/updatePrivatkunde.xhtml</url-pattern>
       <url-pattern>/kundenverwaltung/updateFirmenkunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/updateFirmenkunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/updateFirmenkunde.xhtml</url-pattern>
       <http-method>POST</http-method>
       <http-method>GET</http-method>
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>
       <role-name>mitarbeiter</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>shopAdminTaetigkeiten</web-resource-name>
+      <url-pattern>/auth/updateRollen.jsf</url-pattern>
+      <url-pattern>/auth/updateRollen.faces</url-pattern>
+      <url-pattern>/faces/auth/updateRollen.xhtml</url-pattern>
+      <http-method>POST</http-method>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
     </auth-constraint>
   </security-constraint>
   <security-constraint>
@@ -248,7 +290,7 @@
       <role-name>kunde</role-name>
     </auth-constraint>
   </security-constraint>
-   <security-constraint>
+  <security-constraint>
     <web-resource-collection>
       <web-resource-name>Artikel loeschen</web-resource-name>
       <url-pattern>/rest/artikel/*</url-pattern>

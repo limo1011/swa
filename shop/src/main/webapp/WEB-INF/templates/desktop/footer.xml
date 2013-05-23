@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+	<h:panelGroup id="event" rendered="#{auth.loggedIn}">
+		<a4j:push id="neuerKundeEvent" address="marketing"
+	              ondataavailable="$('#eventMessage').html('&lt;a href=/shop/kundenverwaltung/viewKundeGET.jsf?kundeId=' + event.rf.data + ' class=rf-msg-inf&gt;Neuer Kunde Nr. ' + event.rf.data + '&lt;/a&gt;')"/>
+		<span id="eventMessage"></span>
+	
+		<!--
+		<a4j:push id="neuerKundeEvent" address="marketing"
+	              ondataavailable="jQuery('&lt;li /&gt;').prependTo('#eventMessages').text('Neuer Kunde ' + event.rf.data)"/>
+		<ul id="eventMessages"/>
+		-->
+	</h:panelGroup>
+
+	<h:panelGroup id="copyright">
+		<b>&#169; J&#252;rgen Zimmermann</b>
+	</h:panelGroup>
+</ui:composition>
