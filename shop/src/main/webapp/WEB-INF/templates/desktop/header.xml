@@ -8,7 +8,7 @@
 	<rich:toolbar id="headerToolbar" height="65px">
     	<h:outputLink id="homeLink" value="#{request.contextPath}">
 			<h:graphicImage id="hsLogoImage"
-		    	            name="hs-logo.gif"
+		    	            name="logo.png"
 		        	        library="images"
 		            	    alt="#{msg['header.logo.alt']}"/>
 		</h:outputLink>
