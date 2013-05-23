@@ -230,7 +230,7 @@ public abstract class AbstractKunde implements Serializable, Cloneable {
 	@Column(nullable = false)
 	private short kategorie;
 	
-	@Column(nullable = false, precision = 5, scale = 4)
+	@Column(precision = 5, scale = 4)  //nullable = false, precision = 5, scale = 4
 	private BigDecimal rabatt;
 	
 	@Column(nullable = false, precision = 15, scale = 3)
