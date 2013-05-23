@@ -6,15 +6,20 @@ import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_BEZEICHNUNG_QUERY_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
+import static de.shop.util.TestConstants.KUNDEN_PATH;
+import static de.shop.util.TestConstants.LOCATION;
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -30,6 +35,7 @@ import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
 
+import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.util.AbstractResourceTest;
 
 
@@ -115,6 +121,37 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Test
+	public void createArtikel() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final String bezeichnung = NEUE_BEZEICHNUNG;
+		final String username = USERNAME;
+		final String password = PASSWORD;
+
+		
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+		             		          .add("bezeichnung", bezeichnung)
+		                              .build();
+
+		// When
+		final Response response = given().contentType(APPLICATION_JSON)
+				                         .body(jsonObject.toString())
+                                         .auth()
+                                         .basic(username, password)
+                                         .post(ARTIKEL_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CREATED));
+		final String location = response.getHeader(LOCATION);
+		final int startPos = location.lastIndexOf('/');
+		final String idStr = location.substring(startPos + 1);
+		final Long id = Long.valueOf(idStr);
+		assertThat(id.longValue() > 0, is(true));
+
+		LOGGER.finer("ENDE");
+	}
 	
 	@Test
 	public void updateArtikel() {

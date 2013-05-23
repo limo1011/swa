@@ -1,9 +1,13 @@
 package de.shop.artikelverwaltung.rest;
 
+import static de.shop.util.Constants.KEINE_ID;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.lang.invoke.MethodHandles;
+import java.net.URI;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,6 +16,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -19,8 +24,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import de.shop.kundenverwaltung.domain.AbstractKunde;
+import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.util.LocaleHelper;
 
 import org.jboss.logging.Logger;
@@ -40,6 +48,9 @@ import de.shop.util.Transactional;
 @Log
 public class ArtikelResource {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	
+	@Context
+	private UriInfo uriInfo;
 	
     @Context
     private HttpHeaders headers;
@@ -104,6 +115,26 @@ public class ArtikelResource {
 		return artikel;
 	}
 	
+	/**
+	 * Mit der URL /artikel einen Artikel per POST anlegen.
+	 * @param artikel neuer Artikel
+	 * @return Response-Objekt mit URL des neuen Artikel
+	 */
+	@POST
+	@Consumes(APPLICATION_JSON)
+	@Produces
+	public Response createArtikel(Artikel artikel) {
+		
+		artikel.setId(KEINE_ID);
+		artikel.setErzeugt(new Date());
+		artikel = as.createArtikel(artikel);
+		LOGGER.trace(artikel);
+		
+		final URI artikelUri = uriHelperArtikel.getUriArtikel(artikel, uriInfo);
+		final Response response = Response.created(artikelUri).build();
+		
+		return response;
+	}
 	
 	/**
 	 * Mit der URL /kunden einen Kunden per PUT aktualisieren
