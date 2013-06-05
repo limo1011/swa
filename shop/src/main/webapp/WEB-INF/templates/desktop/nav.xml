@@ -75,7 +75,25 @@
 					               action="#{ac.selectArtikel}">
 						#{msg['nav.artikelverwaltung.selectArtikel']}
 					</h:commandLink>
-				</rich:panelMenuItem>				
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="artikelverwaltungCreateArtikelItem" rendered="#{rich:isUserInRole('admin')}">
+					<h:outputLink id="artikelverwaltungCreateArtikel"
+					              value="#{request.contextPath}/artikelverwaltung/createArtikel.jsf">
+						#{msg['nav.artikelverwaltung.createArtikel']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="createArtikelCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="artikelverwaltungUpdateArtikelItem" rendered="#{rich:isUserInRole('admin')}">
+					<h:outputLink id="artikelverwaltungUpdateArtikel"
+					              value="#{request.contextPath}/artikelverwaltung/updateArtikel.jsf">
+						#{msg['nav.artikelverwaltung.updateArtikel']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="updateArtikelCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
 			</rich:panelMenuGroup>
 
 			<rich:panelMenuGroup id="bestellverwaltung"

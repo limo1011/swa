@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:rich="http://richfaces.org/rich">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:define name="metadata">
+			<f:event type="preRenderView" listener="#{ac.createEmptyArtikel}"/>
+		</ui:define>
+		
+		<ui:param name="pageTitle" value="#{msgAv['createArtikel.title']}"/>
+	
+		<ui:define name="article">
+			<h1>
+				#{msgAv['createArtikel.heading']}
+			</h1>
+	
+			<h:form id="createArtikelForm">
+				<rich:jQuery id="bezeichnungFocus" selector="#bezeichnung" query="focus()"/>
+				<!-- fokussiert auf id="kategorie" statt auf id="nachname" WARUM?
+				<rich:focus id="createKundeFormFocus"/>
+				-->
+				
+				<!--
+					https://issues.jboss.org/browse/AS7-1348
+					http://community.jboss.org/thread/169487 
+				-->
+<!-- 				<rich:graphValidator id="artikelValidator"
+				                     value="#{ac.neuerArtikel}"> -->
+					<p id="abstand"/>
+					
+					<h:panelGrid id="createArtikelTabelle"
+					             columns="3">
+			
+						<h:outputLabel id="bezeichnungLabel" for="bezeichnung" value="#{msgAv['createArtikel.bezeichnung']}"/>
+						<h:inputText id="bezeichnung" value="#{ac.neuerArtikel.bezeichnung}">
+<!-- 							<rich:validator oninvalid="$(#{rich:element('bezeichnung')}).addClass('invalid')"
+                                            onvalid="$(#{rich:element('bezeichnung')}).removeClass('invalid')"/> -->
+						</h:inputText>
+						<rich:messages id="fehlermeldungenBezeichnung" for="bezeichnung"/>
+					</h:panelGrid>
+		
+					<p id="buttons">
+						<h:commandButton id="createSubmit" action="#{ac.createArtikel}" value="#{msgAv['createArtikel.submit']}"/>
+						#{' '}
+						<h:commandButton id="reset" type="reset" value="#{msgAv['createArtikel.reset']}"/>
+					</p>
+<!-- 				</rich:graphValidator> -->
+			</h:form>
+			
+<!-- 			<p id="hinweisPflichtfelder">
+				#{msgAv['createArtikel.required']}
+			</p> -->
+		</ui:define>
+	</ui:composition>
+</html>

@@ -286,7 +286,7 @@
 							                 image="#{resource['images:edit.gif']}"
 							                 action="/kundenverwaltung/updatePrivatkunde"
 							                 alt="#{msgKv['viewKunde.update.alt']}"
-							                 rendered="#{kc.kunde.class.simpleName eq 'Privatkunde'}"/>
+							                 rendered="#{rich:isUserInRole('admin')}"/>
 							<h:commandButton id="updateButtonFirmenkunde"
 							                 image="#{resource['images/edit.gif']}"
 							                 action="/kundenverwaltung/updateFirmenkunde"
