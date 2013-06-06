@@ -1,6 +1,7 @@
 package de.shop.auth.controller;
 
 import static de.shop.util.Constants.JSF_INDEX;
+import static de.shop.util.Constants.JSF_REGISTER;
 import static de.shop.util.Constants.JSF_REDIRECT_SUFFIX;
 import static de.shop.util.Messages.MessagesType.AUTH;
 import static de.shop.util.Messages.MessagesType.SHOP;
@@ -220,6 +221,13 @@ public class AuthController implements Serializable {
 		
 		// redirect bewirkt neuen Request, der *NACH* der Session ist
 		return JSF_INDEX + JSF_REDIRECT_SUFFIX;
+	}
+	
+	/**
+	 * Registrierungs JSF.
+	 */
+	public String register() {
+		return JSF_REGISTER;
 	}
 
 	/**

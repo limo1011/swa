@@ -13,6 +13,16 @@
 			<rich:panelMenuGroup id="kundenverwaltung"
 			                     label="#{msg['nav.kundenverwaltung']}"
 			                     expanded="true">
+			    <rich:panelMenuItem id="kundenverwaltungRegisterKundenItem" rendered="#{!loginBean.loggedOn}">
+					<h:outputLink id="kundenverwaltungRegisterKunden"
+					              value="#{request.contextPath}/kundenverwaltung/register.jsf">
+						#{msg['nav.kundenverwaltung.register']}
+						<f:param id="initParamRegisterKunden" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="registerKundenCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
 				<rich:panelMenuItem id="kundenverwaltungViewKundeItem">
 					<h:outputLink id="kundenverwaltungViewKunde"
 					              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf">
