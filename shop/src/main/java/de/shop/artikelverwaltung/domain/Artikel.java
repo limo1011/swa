@@ -28,6 +28,8 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jboss.logging.Logger;
 
+import de.shop.kundenverwaltung.domain.AbstractKunde;
+
 
 @Entity
 @Table(name = "artikel")
@@ -37,12 +39,28 @@ import org.jboss.logging.Logger;
 				        + " FROM     Artikel a"
                         + " WHERE    a.ausgesondert = FALSE"
 				        + " ORDER BY a.id ASC"),
+	@NamedQuery(name  = Artikel.FIND_BEZEICHNUNGEN_BY_PREFIX,
+		        query = "SELECT   DISTINCT a.bezeichnung"
+				        + " FROM  Artikel a"
+		   	       		+ " WHERE UPPER(a.bezeichnung) LIKE UPPER(:"
+		   	       		+ Artikel.PARAM_ARTIKEL_BEZEICHNUNG_PREFIX + ")"),		
 	@NamedQuery(name  = Artikel.FIND_ARTIKEL_BY_BEZ,
 				query = "SELECT      a"
 				        + " FROM     Artikel a"
 						+ " WHERE    a.bezeichnung LIKE :" + Artikel.PARAM_BEZEICHNUNG
 						+ "          AND a.ausgesondert = FALSE"
 						+ " ORDER BY a.id ASC"),
+	@NamedQuery(name  = Artikel.FIND_ARTIKELS_ORDER_BY_ID,
+				query = "SELECT   a"
+						+ " FROM  Artikel a"
+				        + " ORDER BY a.id"),
+	@NamedQuery(name  = Artikel.FIND_ARTIKELS,
+		        query = "SELECT  a"
+				        + " FROM Artikel a"),
+	@NamedQuery(name  = Artikel.FIND_ARTIKELS_BY_BEZEICHNUNG,
+			    query = "SELECT   a"
+						+ " FROM  Artikel a"
+			            + " WHERE UPPER(a.bezeichnung) = UPPER(:" + Artikel.PARAM_ARTIKEL_BEZEICHNUNG + ")"),
     @NamedQuery(name  = Artikel.FIND_LADENHUETER,
    	            query = "SELECT    a"
    	            	    + " FROM   Artikel a"
@@ -56,11 +74,17 @@ public class Artikel implements Serializable {
 	private static final int BEZEICHNUNG_LENGTH_MAX = 32;
 	
 	private static final String PREFIX = "Artikel."; 
+	public static final String FIND_ARTIKELS = PREFIX + "findArtikels";
 	public static final String FIND_VERFUEGBARE_ARTIKEL = PREFIX + "findVerfuegbareArtikel";
 	public static final String FIND_ARTIKEL_BY_BEZ = PREFIX + "findArtikelByBez";
+	public static final String FIND_BEZEICHNUNGEN_BY_PREFIX = PREFIX + "findBezeichnungenByPrefix";
+	public static final String PARAM_ARTIKEL_BEZEICHNUNG_PREFIX = "bezeichnungPrefix";
 	public static final String FIND_LADENHUETER = PREFIX + "findLadenhueter";
+	public static final String FIND_ARTIKELS_ORDER_BY_ID = PREFIX + "findArtikelsOrderById";
+	public static final String FIND_ARTIKELS_BY_BEZEICHNUNG = PREFIX + "findArtikelsByBezeichnung";
 	
 	public static final String PARAM_BEZEICHNUNG = "bezeichnung";
+	public static final String PARAM_ARTIKEL_BEZEICHNUNG = "bezeichnung";
 
 	@Id
 	@GeneratedValue

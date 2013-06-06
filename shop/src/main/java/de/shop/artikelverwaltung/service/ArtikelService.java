@@ -25,6 +25,10 @@ import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.kundenverwaltung.service.EmailExistsException;
+import de.shop.kundenverwaltung.service.InvalidKundeIdException;
+import de.shop.kundenverwaltung.service.KundeDeleteBestellungException;
+import de.shop.kundenverwaltung.service.KundeService.FetchType;
+import de.shop.kundenverwaltung.service.KundeService.OrderByType;
 import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
 
@@ -82,6 +86,15 @@ public class ArtikelService implements Serializable {
 	
 	/**
 	 */
+	public List<String> findBezeichnungenByPrefix(String bezeichnungPrefix) {
+		final List<String> bezeichnungen = em.createNamedQuery(Artikel.FIND_BEZEICHNUNGEN_BY_PREFIX, String.class)
+				                         .setParameter(Artikel.PARAM_ARTIKEL_BEZEICHNUNG_PREFIX, bezeichnungPrefix + '%')
+				                         .getResultList();
+		return bezeichnungen;
+	}
+		
+	/**
+	 */
 	public List<Artikel> findArtikelByIds(List<Long> ids) {
 		if (ids == null || ids.isEmpty()) {
 			return Collections.emptyList();
@@ -122,11 +135,33 @@ public class ArtikelService implements Serializable {
 	
 	/**
 	 */
+	/**
+	 * @param order
+	 * @return
+	 */
+	public List<Artikel> findAllArtikel() {
+		List<Artikel> artikels;
+		artikels = em.createNamedQuery(Artikel.FIND_ARTIKELS, Artikel.class).getResultList();
+		return artikels;
+	}
+	
+	/**
+	 */
 	public List<Artikel> ladenhueter(int anzahl) {
 		final List<Artikel> artikel = em.createNamedQuery(Artikel.FIND_LADENHUETER, Artikel.class)
 				                        .setMaxResults(anzahl)
 				                        .getResultList();
 		return artikel;
+	}
+	
+	/**
+	 */
+	public List<Artikel> findArtikelsByBezeichnung(String bezeichnung) {
+		List<Artikel> artikels;
+				artikels = em.createNamedQuery(Artikel.FIND_ARTIKELS_BY_BEZEICHNUNG, Artikel.class)
+						   .setParameter(Artikel.PARAM_ARTIKEL_BEZEICHNUNG, bezeichnung)
+                           .getResultList();
+		return artikels;
 	}
 	
 	/**
@@ -162,6 +197,32 @@ public class ArtikelService implements Serializable {
 
 
 			return artikel;
+	}
+	
+	/**
+	 */
+	public void deleteArtikel(Artikel artikel) {
+		if (artikel == null) {
+			return;
+		}
+
+		deleteArtikelById(artikel.getId());
+	}
+	
+	/**
+	 */
+	public void deleteArtikelById(Long artikelId) {
+		Artikel artikel;
+		
+		artikel = findArtikelById(artikelId);
+
+		if (artikel == null) {
+			// Der Kunde existiert nicht oder ist bereits geloescht
+			return;
+		}
+
+		// Artikeldaten loeschen
+		em.remove(artikel);
 	}
 	
 	
