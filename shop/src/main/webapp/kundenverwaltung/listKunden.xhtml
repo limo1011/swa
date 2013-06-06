@@ -123,6 +123,7 @@
 								           label="#{msgKv['listKunden.deleteButtonAlt']}"
 								           icon="#{resource['images:delete.gif']}"
 								           action="#{kc.delete(kunde)}"
+								           onclick="return confirm('#{msgKv['viewKunde.deleteKundeBestaetigung']}')"
 								           rendered="#{rich:isUserInRole('admin')}"/>
 						</rich:contextMenu>
 
@@ -182,8 +183,8 @@
 						<a4j:commandButton id="deleteButton"
 										   image="#{resource['images:delete.gif']}"
 								           action="#{kc.delete(kunde)}"
+								           onclick="return confirm('#{msgKv['listKunden.deleteKundeBestaetigung']}')"
 								           alt="#{msgKv['listKunden.deleteButtonAlt']}"
-								           onclick="return confirm('#{msgKc['listKunden.deleteKundeBestaetigung']}')"
 								           render="@form :globaleFehlermeldungen"/>
 					</rich:column>
 				</rich:dataTable>

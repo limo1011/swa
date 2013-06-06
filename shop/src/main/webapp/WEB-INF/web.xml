@@ -202,9 +202,6 @@
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>shopKundeTaetigkeiten</web-resource-name>
-<!--       <url-pattern>/bestellverwaltung/confirmBestellung.jsf</url-pattern>
-      <url-pattern>/bestellverwaltung/confirmBestellung.faces</url-pattern>
-      <url-pattern>/faces/bestellverwaltung/confirmBestellung.xhtml</url-pattern> -->
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

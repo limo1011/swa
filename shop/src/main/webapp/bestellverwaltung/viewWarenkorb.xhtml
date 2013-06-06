@@ -65,7 +65,8 @@
 							#{' '}
 							<h:commandButton id="bestellButton"
 											 action="/bestellverwaltung/confirmBestellung"
-									         value="#{msgBv['viewWarenkorb.bestellen']}"/>
+									         value="#{msgBv['viewWarenkorb.bestellen']}"
+									         rendered="#{auth.loggedIn}"/>
 							<rich:message id="bestellButtonFehlermeldung" for="bestellButton" rendered="#{auth.loggedIn}"/>
 						</h:panelGroup>
 					</f:facet>

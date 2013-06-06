@@ -6,20 +6,17 @@ import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_BEZEICHNUNG_QUERY_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
-import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
-import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -35,7 +32,6 @@ import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
 
-import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.util.AbstractResourceTest;
 
 
