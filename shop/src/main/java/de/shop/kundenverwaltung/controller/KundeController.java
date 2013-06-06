@@ -9,6 +9,7 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -77,7 +78,7 @@ public class KundeController implements Serializable {
 
 	private static final String JSF_KUNDENVERWALTUNG = "/kundenverwaltung/";
 	private static final String JSF_VIEW_KUNDE = JSF_KUNDENVERWALTUNG + "viewKunde";
-	private static final String JSF_LIST_KUNDEN = JSF_KUNDENVERWALTUNG + "/kundenverwaltung/listKunden";
+	private static final String JSF_LIST_KUNDEN = JSF_KUNDENVERWALTUNG + "listKunden";
 	private static final String JSF_UPDATE_PRIVATKUNDE = JSF_KUNDENVERWALTUNG + "updatePrivatkunde";
 	private static final String JSF_UPDATE_FIRMENKUNDE = JSF_KUNDENVERWALTUNG + "updateFirmenkunde";
 	private static final String JSF_DELETE_OK = JSF_KUNDENVERWALTUNG + "okDelete";
@@ -110,6 +111,11 @@ public class KundeController implements Serializable {
 	
 	private static final String CLIENT_ID_DELETE_BUTTON = "form:deleteButton";
 	private static final String MSG_KEY_DELETE_KUNDE_BESTELLUNG = "viewKunde.deleteKundeBestellung";
+	
+	private static final BigDecimal REGISTER_UMSATZ = new BigDecimal(0.0);
+	private static final BigDecimal REGISTER_RABATT = new BigDecimal(0.0);
+	private static final Date REGISTER_SEIT = new Date();
+	private static final short REGISTER_KATEGORIE = 1;
 	
 	@PersistenceContext(type = EXTENDED)
 	private transient EntityManager em;
@@ -250,6 +256,14 @@ public class KundeController implements Serializable {
 	}
 
 	public Privatkunde getNeuerPrivatkunde() {
+		return neuerPrivatkunde;
+	}
+	
+	public Privatkunde getNeuerPrivatkundeReg() {
+		this.neuerPrivatkunde.setUmsatz(REGISTER_UMSATZ);
+		this.neuerPrivatkunde.setRabatt(REGISTER_RABATT);
+		this.neuerPrivatkunde.setSeit(REGISTER_SEIT);
+		this.neuerPrivatkunde.setKategorie(REGISTER_KATEGORIE);
 		return neuerPrivatkunde;
 	}
 	

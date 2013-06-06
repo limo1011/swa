@@ -21,6 +21,7 @@ public final class Constants {
 	
 	// JSF
 	public static final String JSF_INDEX = "/index";
+	public static final String JSF_REGISTER = "/register";
 	public static final String JSF_DEFAULT_ERROR = "/error/defaultError";
 	public static final String JSF_REDIRECT_SUFFIX = "?faces-redirect=true";
 	

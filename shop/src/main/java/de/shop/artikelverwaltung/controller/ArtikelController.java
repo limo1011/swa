@@ -298,8 +298,7 @@ public class ArtikelController implements Serializable {
 		// Aufbereitung fuer viewKunde.xhtml
 		artikelId = artikel.getId();
 		
-		return JSF_LIST_ARTIKEL_UPDATE;
-		//return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
+		return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
 	}
 	
 	@TransactionAttribute(REQUIRED)
