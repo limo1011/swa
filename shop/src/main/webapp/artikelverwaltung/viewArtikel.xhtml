@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:param name="pageTitle" value="#{msgAv['viewArtikel.title']}"/>
+	
+		<ui:define name="article">
+			<h:form id="form">
+				<rich:focus id="formFocus"/>
+				
+				<rich:panel id="suchePanel" header="#{msgAv['viewArtikel.sucheNeu']}">
+					<h:panelGrid id="suchePanelGrid" columns="4">
+						<h:outputLabel id="artikelIdInputLabel"
+						               value="#{msgAv['viewArtikel.artikelnr']}"
+						               for="artikelIdInput"/>
+						             
+						<h:inputText   id="artikelIdInput"
+						              value="#{ac.bezeichnung}">
+						
+						</h:inputText> 
+	
+						<a4j:commandButton id="findButton"
+						                   action="#{ac.findArtikelByBezeichnung}"
+						                   value="#{msgAv['viewArtikel.submit']}"
+						                   render="gesuchterArtikelPanel fehlermeldungArtikelId"/>
+						
+						<a4j:status id="statusWaiting">
+							<f:facet name="start">
+								<h:panelGroup id="waitingGroup">
+									<h:graphicImage id="waitingGif"
+									                name="waiting.gif"
+									                library="images"/>
+									#{msgAv['viewArtikel.inBearbeitung']}
+								</h:panelGroup>
+							</f:facet>
+						</a4j:status>
+					</h:panelGrid>
+					
+					<rich:messages id="fehlermeldungArtikelId" for="artikelIdInput"/>
+				</rich:panel>
+	
+				<a4j:outputPanel id="gesuchterArtikelPanel">
+					<rich:tabPanel id="tabPanel" switchType="client" rendered="#{not empty ac.artikel}">
+						<rich:tab id="stammdatenTab">
+							<f:facet name="header">
+								<h:panelGroup id="stammdatenLabel">
+									<h:graphicImage id="stammdatenGif"
+									                name="stammdaten.gif"
+									                library="images"/>
+									#{' '}
+									#{msgAv['viewArtikel.artikel.stammdaten']}
+								</h:panelGroup>
+							</f:facet>
+							
+							<rich:panel id="stammdatenPanel">
+								<h:panelGrid id="stammdatenGrid" columns="2">
+									<h:outputText id="artikelIdLabel" value="#{msgAv['viewArtikel.artikelnr']}"/>
+									<h:outputText id="artikelId" value="#{ac.artikel.id}"/>
+							
+									<h:outputText id="bezeichnungLabel" value="#{msgAv['viewArtikel.bezeichnung']}"/>
+									<h:outputText id="bezeichnung" value="#{ac.artikel.bezeichnung}"/>								
+								</h:panelGrid>
+							</rich:panel>
+						</rich:tab>																	
+					</rich:tabPanel>
+				
+<!-- 					<p id="buttons">
+						<h:panelGroup id="buttonsGroup" rendered="#{not empty kc.kunde}">
+							<h:commandButton id="updateButtonPrivatkunde"
+							                 image="#{resource['images:edit.gif']}"
+							                 action="/kundenverwaltung/updatePrivatkunde"
+							                 alt="#{msgKv['viewKunde.update.alt']}"
+							                 rendered="#{rich:isUserInRole('admin')}"/>
+							<h:commandButton id="updateButtonFirmenkunde"
+							                 image="#{resource['images/edit.gif']}"
+							                 action="/kundenverwaltung/updateFirmenkunde"
+							                 alt="#{msgKv['viewKunde.update.alt']}"
+							                 rendered="#{kc.kunde.class.simpleName eq 'Firmenkunde'}"/>
+							#{' '}
+							<h:commandButton id="deleteButton"
+											 image="#{resource['images:delete.gif']}"
+									         action="#{kc.deleteAngezeigtenKunden}"
+									         onclick="return confirm('#{msgKv['viewKunde.deleteKundeBestaetigung']}')"
+									         alt="#{msgKv['viewKunde.deleteButtonAlt']}"
+									         rendered="#{rich:isUserInRole('admin')}"/>
+							#{' '}
+							<rich:messages id="fehlermeldungDeleteButton" for="deleteButton"/>
+						</h:panelGroup>
+					</p> -->
+				</a4j:outputPanel>
+			</h:form>
+			
+			<!--
+			<a4j:log id="log"/>
+			-->
+		</ui:define>
+	</ui:composition>
+</html>
