@@ -36,6 +36,7 @@ import org.richfaces.cdi.push.Push;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.auth.controller.AuthController;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.HobbyType;
@@ -54,7 +55,7 @@ import de.shop.util.Transactional;
  */
 @Named("ac")
 @RequestScoped
-@Log
+//@Log
 @Stateful
 @TransactionAttribute(SUPPORTS)
 public class ArtikelController implements Serializable {
@@ -87,6 +88,10 @@ public class ArtikelController implements Serializable {
 	@Push(topic = "marketing")
 	private transient Event<String> neuerArtikelEvent;
 	
+	@Inject
+	@Push(topic = "updateArtikel")
+	private transient Event<String> updateArtikelEvent;
+	
 	private Long artikelId;
 	private Artikel artikel;
 	private boolean geaendertArtikel; 
@@ -96,6 +101,9 @@ public class ArtikelController implements Serializable {
 	
 	@Inject
 	private Flash flash;
+	
+	@Inject
+	private AuthController auth;
 	
 	@Inject
 	private transient HttpSession session;
@@ -189,40 +197,40 @@ public class ArtikelController implements Serializable {
 	public String update() {
 		auth.preserveLogin();
 		
-		if (!geaendertKunde || kunde == null) {
+		if (!geaendertArtikel || artikel == null) {
 			return JSF_INDEX;
 		}
 		
-		if (kunde.getClass().equals(Privatkunde.class)) {
-			final Privatkunde privatkunde = (Privatkunde) kunde;
-			final Set<HobbyType> hobbiesPrivatkunde = privatkunde.getHobbies();
-			hobbiesPrivatkunde.clear();
-			
-			for (String s : hobbies) {
-				hobbiesPrivatkunde.add(HobbyType.valueOf(s));				
-			}
-		}
+//		if (artikel.getClass().equals(Artikel.class)) {
+//			final Artikel artikel = (Artikel) artikel;
+//			final Set<HobbyType> hobbiesPrivatkunde = privatkunde.getHobbies();
+//			hobbiesPrivatkunde.clear();
+//			
+//			for (String s : hobbies) {
+//				hobbiesPrivatkunde.add(HobbyType.valueOf(s));				
+//			}
+//		}
 		
-		LOGGER.tracef("Aktualisierter Kunde: %s", kunde);
-		try {
-			kunde = ks.updateKunde(kunde, locale, false);
-		}
-		catch (EmailExistsException | InvalidKundeException
-			  | OptimisticLockException | ConcurrentDeletedException e) {
-			final String outcome = updateErrorMsg(e, kunde.getClass());
-			return outcome;
-		}
+		LOGGER.tracef("Aktualisierter Artikel: %s", artikel);
+//		try {
+			artikel = as.updateArtikel(artikel);
+//		}
+//		catch (EmailExistsException | InvalidKundeException
+//			  | OptimisticLockException | ConcurrentDeletedException e) {
+//			final String outcome = updateErrorMsg(e, kunde.getClass());
+//			return outcome;
+//		}
 
 		// Push-Event fuer Webbrowser
-		updateKundeEvent.fire(String.valueOf(kunde.getId()));
+		updateArtikelEvent.fire(String.valueOf(artikel.getId()));
 		
 		// ValueChangeListener zuruecksetzen
-		geaendertKunde = false;
+		geaendertArtikel = false;
 		
 		// Aufbereitung fuer viewKunde.xhtml
-		kundeId = kunde.getId();
+		artikelId = artikel.getId();
 		
-		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
+		return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
 	}
 
 	@Transactional
