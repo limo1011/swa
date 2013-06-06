@@ -489,7 +489,6 @@ public class KundeController implements Serializable {
 		}
 	}
 	
-
 	@TransactionAttribute(REQUIRED)
 	public String update() {
 		auth.preserveLogin();

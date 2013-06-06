@@ -2,6 +2,7 @@ package de.shop.artikelverwaltung.controller;
 
 import static de.shop.util.Constants.JSF_INDEX;
 import static de.shop.util.Constants.JSF_REDIRECT_SUFFIX;
+import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
 import static de.shop.util.Messages.MessagesType.KUNDENVERWALTUNG;
 import static javax.ejb.TransactionAttributeType.MANDATORY;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
@@ -11,6 +12,8 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +24,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
 import javax.faces.event.ValueChangeEvent;
@@ -30,6 +34,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
 
 import org.jboss.logging.Logger;
 import org.richfaces.cdi.push.Push;
@@ -43,6 +48,10 @@ import de.shop.kundenverwaltung.domain.HobbyType;
 import de.shop.kundenverwaltung.domain.Privatkunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
 import de.shop.kundenverwaltung.service.InvalidKundeException;
+import de.shop.kundenverwaltung.service.InvalidNachnameException;
+import de.shop.kundenverwaltung.service.KundeDeleteBestellungException;
+import de.shop.kundenverwaltung.service.KundeService.FetchType;
+import de.shop.kundenverwaltung.service.KundeService.OrderByType;
 import de.shop.util.AbstractShopException;
 import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
@@ -54,8 +63,8 @@ import de.shop.util.Transactional;
  * Dialogsteuerung fuer die ArtikelService
  */
 @Named("ac")
-@RequestScoped
-//@Log
+@SessionScoped   //RequestScoped
+@Log
 @Stateful
 @TransactionAttribute(SUPPORTS)
 public class ArtikelController implements Serializable {
@@ -63,16 +72,23 @@ public class ArtikelController implements Serializable {
 
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
+	private static final int MAX_AUTOCOMPLETE = 10;
+	
 	private static final String JSF_LIST_ARTIKEL = "/artikelverwaltung/listArtikel";
+	private static final String JSF_LIST_ARTIKEL_UPDATE = "/artikelverwaltung/updateArtikelView";
 	private static final String FLASH_ARTIKEL = "artikel";
 	private static final int ANZAHL_LADENHUETER = 5;
 	
 	private static final String JSF_ARTIKELVERWALTUNG = "/artikelverwaltung/";
 	private static final String JSF_VIEW_ARTIKEL = JSF_ARTIKELVERWALTUNG + "viewArtikel";
+	private static final String JSF_UPDATE_ARTIKEL = JSF_ARTIKELVERWALTUNG + "updateArtikel";
 	private static final String CLIENT_ID_CREATE_BEZEICHNUNG = "createArtikelForm:bezeichnung";
 	private static final String JSF_SELECT_ARTIKEL = "/artikelverwaltung/selectArtikel";
 	private static final String SESSION_VERFUEGBARE_ARTIKEL = "verfuegbareArtikel";
 	private static final String MSG_KEY_CREATE_ARTIKEL_BEZEICHNUNG_EXISTS = "createArtikel.bezeichnungExists";
+	
+	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
+	private static final String MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG = "listKunden.notFound";
 
 	@PersistenceContext(type = EXTENDED)
 	private transient EntityManager em;
@@ -93,7 +109,7 @@ public class ArtikelController implements Serializable {
 	private transient Event<String> updateArtikelEvent;
 	
 	private Long artikelId;
-	private Artikel artikel;
+	private Artikel artikel = new Artikel();
 	private boolean geaendertArtikel; 
 	
 	@Inject
@@ -107,6 +123,8 @@ public class ArtikelController implements Serializable {
 	
 	@Inject
 	private transient HttpSession session;
+	
+	private List<Artikel> artikels = Collections.emptyList();
 	
 	private Artikel neuerArtikel = new Artikel();
 
@@ -154,14 +172,81 @@ public class ArtikelController implements Serializable {
 		return JSF_LIST_ARTIKEL;
 	}
 	
+	@Transactional
+	public String findArtikelByBezeichnungUpdate() {
+		final List<Artikel> artikel = as.findArtikelByBezeichnung(bezeichnung);
+		flash.put(FLASH_ARTIKEL, artikel);
+
+		return JSF_LIST_ARTIKEL_UPDATE;
+	}
+	
+/*	*//**
+	 * Action Methode, um einen Kunden zu gegebener ID zu suchen
+	 * @return URL fuer Anzeige des gefundenen Kunden; sonst null
+	 *//*
+	@TransactionAttribute(REQUIRED)
+	public String findArtikelByBezeichnungUpdate() {
+		if (bezeichnung == null || bezeichnung.isEmpty()) {
+			artikels = as.findAllArtikel();
+			return JSF_LIST_ARTIKEL_UPDATE;
+		}
+		artikels = as.findArtikelsByBezeichnung(bezeichnung);
+		return JSF_LIST_ARTIKEL_UPDATE;
+	}*/
+	
+	/**
+	 * F&uuml;r rich:autocomplete
+	 * @return Liste der potenziellen Nachnamen
+	 */
+	@TransactionAttribute(REQUIRED)
+	public List<String> findBezeichnungenByPrefix(String bezeichnungPrefix) {
+		// NICHT: Liste von Kunden. Sonst waeren gleiche Nachnamen mehrfach vorhanden.
+		final List<String> bezeichnungen = as.findBezeichnungenByPrefix(bezeichnungPrefix);
+		if (bezeichnungen.isEmpty()) {
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
+			return bezeichnungen;
+		}
+		if (bezeichnungen.size() > MAX_AUTOCOMPLETE) {
+			return bezeichnungen.subList(0, MAX_AUTOCOMPLETE);
+		}
+
+		return bezeichnungen;
+	}
+	
 	public Artikel getNeuerArtikel() {
 		return neuerArtikel;
 	}
 	
+	public List<Artikel> getArtikels() {
+		return artikels;
+	}
+	
+	/**
+	 * Verwendung als ValueChangeListener bei updateArtikel.xhtml
+	 */
 	public void geaendert(ValueChangeEvent e) {
 		if (geaendertArtikel) {
 			return;
 		}
+		
+		if (e.getOldValue() == null) {
+			if (e.getNewValue() != null) {
+				geaendertArtikel = true;
+			}
+			return;
+		}
+
+		if (!e.getOldValue().equals(e.getNewValue())) {
+			geaendertArtikel = true;				
+		}
+	}
+		
+	public String selectForUpdate(Artikel ausgewaehlterArtikel) {
+		if (ausgewaehlterArtikel == null) {
+			return null;
+		}
+		artikel = ausgewaehlterArtikel;
+		return JSF_UPDATE_ARTIKEL;
 	}
 	
 /*	private String createArtikelErrorMsg(AbstractShopException e) {
@@ -201,25 +286,8 @@ public class ArtikelController implements Serializable {
 			return JSF_INDEX;
 		}
 		
-//		if (artikel.getClass().equals(Artikel.class)) {
-//			final Artikel artikel = (Artikel) artikel;
-//			final Set<HobbyType> hobbiesPrivatkunde = privatkunde.getHobbies();
-//			hobbiesPrivatkunde.clear();
-//			
-//			for (String s : hobbies) {
-//				hobbiesPrivatkunde.add(HobbyType.valueOf(s));				
-//			}
-//		}
-		
 		LOGGER.tracef("Aktualisierter Artikel: %s", artikel);
-//		try {
-			artikel = as.updateArtikel(artikel);
-//		}
-//		catch (EmailExistsException | InvalidKundeException
-//			  | OptimisticLockException | ConcurrentDeletedException e) {
-//			final String outcome = updateErrorMsg(e, kunde.getClass());
-//			return outcome;
-//		}
+		artikel = as.updateArtikel(artikel);
 
 		// Push-Event fuer Webbrowser
 		updateArtikelEvent.fire(String.valueOf(artikel.getId()));
@@ -230,7 +298,15 @@ public class ArtikelController implements Serializable {
 		// Aufbereitung fuer viewKunde.xhtml
 		artikelId = artikel.getId();
 		
-		return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
+		return JSF_LIST_ARTIKEL_UPDATE;
+		//return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
+	}
+	
+	@TransactionAttribute(REQUIRED)
+	public String delete(Artikel ausgewaehlterArtikel) {
+		as.deleteArtikel(ausgewaehlterArtikel);
+		artikels.remove(ausgewaehlterArtikel);
+		return null;
 	}
 
 	@Transactional

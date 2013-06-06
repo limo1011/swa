@@ -224,6 +224,9 @@
       <url-pattern>/kundenverwaltung/updateFirmenkunde.jsf</url-pattern>
       <url-pattern>/kundenverwaltung/updateFirmenkunde.faces</url-pattern>
       <url-pattern>/faces/kundenverwaltung/updateFirmenkunde.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/updateArtikelView.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/updateArtikelView.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/updateArtikelView.xhtml</url-pattern>
       <http-method>POST</http-method>
       <http-method>GET</http-method>
     </web-resource-collection>

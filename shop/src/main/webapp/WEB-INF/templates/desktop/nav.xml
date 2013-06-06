@@ -87,7 +87,7 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="artikelverwaltungUpdateArtikelItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="artikelverwaltungUpdateArtikel"
-					              value="#{request.contextPath}/artikelverwaltung/updateArtikel.jsf">
+					              value="#{request.contextPath}/artikelverwaltung/updateArtikelView.jsf">
 						#{msg['nav.artikelverwaltung.updateArtikel']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="updateArtikelCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
