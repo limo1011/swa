@@ -1,28 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:baselineAligned="false"
-	android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
 	tools:context=".ui.main.Main" >
 
-	<EditText
-	    android:id="@+id/kunde_id"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:hint="@string/s_kunde_id_hint"
-	    android:inputType="number"
-	    tools:ignore="LabelFor" >
-
-		<requestFocus />
-		
-	</EditText>
+	<!-- Fragmente gibt es erst ab Honeycomb bzw. Version 3.0 -->
 	
-	<Button
-		android:id="@+id/btn_suchen"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="50dp"
-		android:text="@string/s_btn_suchen" />
+	<!-- Verhaeltnis zwischen Master und Detail wird auf 1:4 durch layout_weight gesetzt -->
+	<!-- layout_width darf deshalb nicht wirksam sein -->
+	
+	<fragment
+		android:id="@+id/nav"
+    	android:name="de.shop.ui.main.MainNav"
+    	android:layout_weight="1"
+    	android:layout_width="0dp"
+    	android:layout_height="match_parent" />
+    
+	<!-- <FrameLayout> statt <fragment>, damit das Fragment spaeter dynamisch austauschbar ist -->
+    <FrameLayout
+    	android:id="@+id/details"
+    	android:layout_weight="4"
+    	android:layout_width="0dp"
+    	android:layout_height="match_parent" />
 
 </LinearLayout>
