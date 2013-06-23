@@ -1,0 +1,35 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="de.shop"
+	android:versionCode="1"
+	android:versionName="1.0" >
+
+	<uses-sdk
+		android:minSdkVersion="17"
+		android:targetSdkVersion="17" />
+	
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+	<application
+		android:icon="@drawable/ic_launcher"
+		android:label="@string/s_app_name"
+		android:theme="@style/AppTheme"
+		android:allowBackup="true" >
+		
+		<activity
+			android:name=".ui.main.Main"
+			android:label="@string/s_app_name" >
+			<intent-filter>
+				<!-- in Android gibt es keine Methode main() -->
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		<!-- Up-Navigation durch parentActivityName ab API-Level 16 bzw. 4.1 bzw. Jelly Bean -->
+		<activity
+			android:name=".ui.kunde.KundeDetails"
+			android:label="@string/k_kunde_details_title"
+			android:parentActivityName=".ui.main.Main" />
+	</application>
+
+</manifest>

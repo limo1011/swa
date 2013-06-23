@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="s_app_name">Shop</string>
+    <string name="s_btn_suchen">Search</string>
+    <string name="s_menu_settings">Settings</string>
+    <string name="s_kunde_id_hint">Enter customer no.</string>
+    <string name="title_activity_kunde_details">KundeDetails</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
