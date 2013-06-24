@@ -1,7 +1,6 @@
 package de.shop.ui.main;
 
 import static de.shop.util.Constants.KUNDE_KEY;
-
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;

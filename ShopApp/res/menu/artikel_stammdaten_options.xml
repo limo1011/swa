@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<!-- Suchfeld -->
+	<item
+		android:id="@+id/einstellungen"
+		android:title="@string/s_einstellungen"
+		android:icon="@drawable/ic_option_einstellungen"
+		android:orderInCategory="100"
+		android:showAsAction="never" />
+    
+</menu>

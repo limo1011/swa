@@ -1,96 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.shop"
 	android:name="de.shop.ShopApp"
+	package="de.shop"
 	android:versionCode="1"
 	android:versionName="1.0" >
 
 	<uses-sdk
 		android:minSdkVersion="17"
 		android:targetSdkVersion="17" />
-	
-	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	
+
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 	<!-- Ansonsten: android.content.res.Resources$NotFoundException -->
-	<supports-screens android:requiresSmallestWidthDp="600"/>
+	<supports-screens android:requiresSmallestWidthDp="600" />
 
 	<application
+		android:name="de.shop.ShopApp"
+		android:allowBackup="true"
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/s_app_name"
-		android:theme="@style/AppTheme"
-		android:name="ShopApp"
-		android:allowBackup="true" >
-		
+		android:theme="@style/AppTheme" >
 		<activity
-			android:name=".ui.main.Main"
+			android:name="de.shop.ui.main.Main"
 			android:label="@string/s_app_name" >
-			
 			<intent-filter>
+
 				<!-- in Android gibt es keine Methode main() -->
 				<action android:name="android.intent.action.MAIN" />
+
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
-			
+
 			<meta-data
-            	android:name="android.app.default_searchable"
-            	android:value=".ui.main.SucheIdActivity" />
+				android:name="android.app.default_searchable"
+				android:value=".ui.main.SucheIdActivity" />
 		</activity>
-		
+
 		<!-- android:parentActivityName seit API Level 16 -->
 		<!-- siehe http://developer.android.com/guide/topics/manifest/activity-element.html -->
 		<activity
-			android:name=".ui.kunde.KundenListe"
+			android:name="de.shop.ui.kunde.KundenListe"
+			android:exported="false"
 			android:label="@string/k_kunden_liste_title"
-			android:parentActivityName=".ui.main.Main"
-			android:exported="false" > <!-- false ist der Defaultwert, da es keinen intent-filter gibt -->
-			
+			android:parentActivityName=".ui.main.Main" >
+
+			<!-- false ist der Defaultwert, da es keinen intent-filter gibt -->
+
 			<meta-data
-            	android:name="android.app.default_searchable"
-            	android:value=".ui.kunde.SucheNachnameActivity" />
+				android:name="android.app.default_searchable"
+				android:value=".ui.kunde.SucheNachnameActivity" />
 		</activity>
-		
 		<activity
-			android:name=".ui.main.SucheIdActivity"
+			android:name="de.shop.ui.main.SucheIdActivity"
 			android:exported="false" >
-			
+
 			<!-- Activity als "searchable" deklarieren -->
 			<intent-filter>
-	            <action android:name="android.intent.action.SEARCH" />
-	            <category android:name="android.intent.category.DEFAULT" />
-	        </intent-filter>
-			
+				<action android:name="android.intent.action.SEARCH" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+
 			<!-- Weitere Konfiguration fuer die Suche durch diese Activity -->
 			<meta-data
-	            android:name="android.app.searchable"
-	            android:resource="@xml/searchable_id" />
+				android:name="android.app.searchable"
+				android:resource="@xml/searchable_id" />
 		</activity>
-		
 		<activity
-			android:name=".ui.kunde.SucheNachnameActivity"
+			android:name="de.shop.ui.kunde.SucheNachnameActivity"
 			android:exported="false" >
-			
+
 			<!-- Activity als "searchable" deklarieren -->
 			<intent-filter>
-	            <action android:name="android.intent.action.SEARCH" />
-	            <category android:name="android.intent.category.DEFAULT" />
-	        </intent-filter>
-			
+				<action android:name="android.intent.action.SEARCH" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+
 			<!-- Weitere Konfiguration fuer die Suche durch diese Activity -->
 			<meta-data
-	            android:name="android.app.searchable"
-	            android:resource="@xml/searchable_nachname" />
+				android:name="android.app.searchable"
+				android:resource="@xml/searchable_nachname" />
 		</activity>
-		
+
 		<!-- Local Services -->
-		<service
-			android:name=".service.KundeService" />
-		
-		<service
-			android:name=".service.BestellungService" />
-		
-		<service
-			android:name=".service.NetworkService" />
-				
+		<service android:name="de.shop.service.KundeService" />
+		<service android:name="de.shop.service.BestellungService" />
+		<service android:name="de.shop.service.NetworkService" />
+
+		<activity
+			android:name="de.shop.ui.artikel.ArtikelSucheId"
+			android:label="@string/title_activity_artikel_suche_id" >
+		</activity>
+		<activity
+			android:name="de.shop.ui.artikel.ArtikelDetails"
+			android:label="@string/title_activity_artikel_details" >
+		</activity>
+		<activity
+			android:name="de.shop.ui.artikel.ArtikelStammdaten"
+			android:label="@string/title_activity_artikel_stammdaten" >
+		</activity>
 	</application>
 
 </manifest>

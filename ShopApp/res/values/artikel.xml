@@ -1,0 +1,10 @@
+<resources>
+    
+	<string name="a_artikel_neu">New article</string>
+	<string name="a_artikel_id_auswahl_hint">Select a article no.</string>
+	<string name="a_artikel_id_hint">Enter article no.</string>
+	<string name="a_artikelnr_fehlt">The article no. is missing.</string>
+	<string name="a_artikel_not_found">No article found with id %s.</string>
+	<string name="a_stammdaten">Master data</string>
+	<string name="a_artikel_id">Article No.</string>
+</resources>

@@ -239,6 +239,47 @@ final class WebServiceClient {
     	return result;
     }
     
+    
+        
+    
+	static <T extends JsonMappable> HttpResponse<T> getJsonSingle2(String path, Class<? extends T> clazz_in) {
+		final HttpResponse<T> result = getJson(path);
+		if (result.responseCode != HTTP_OK) {
+			return result;
+		}
+
+		JsonReader jsonReader = null;
+		JsonObject jsonObject;
+		try {
+			jsonReader = jsonReaderFactory.createReader(new StringReader(
+					result.content));
+			jsonObject = jsonReader.readObject();
+		} finally {
+			if (jsonReader != null) {
+				jsonReader.close();
+			}
+		}
+
+		final Class<? extends T> clazz = clazz_in;
+		if (clazz == null) {
+			result.responseCode = HTTP_INTERNAL_ERROR;
+			return result;
+		}
+
+		try {
+			result.resultObject = clazz.newInstance();
+		} catch (InstantiationException e) {
+			throw new InternalShopError(e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			throw new InternalShopError(e.getMessage(), e);
+		}
+		result.resultObject.fromJsonObject(jsonObject);
+
+		return result;
+	}
+    
+    
+    
     static <T extends JsonMappable> HttpResponse<T> getJsonList(String path, Class<? extends T> clazz) {
     	final HttpResponse<T> result = getJson(path);
     	if (result.responseCode != HTTP_OK) {

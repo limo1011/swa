@@ -3,6 +3,7 @@ package de.shop.service;
 import static de.shop.ShopApp.jsonReaderFactory;
 import static de.shop.ui.main.Prefs.username;
 import static de.shop.util.Constants.KUNDEN_PATH;
+import static de.shop.util.Constants.ARTIKEL_PATH;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
@@ -31,6 +32,7 @@ import android.util.Log;
 import de.shop.R;
 import de.shop.ShopApp;
 import de.shop.data.AbstractKunde;
+import de.shop.data.Artikel;
 import de.shop.data.Bestellung;
 import de.shop.data.Firmenkunde;
 import de.shop.data.Privatkunde;
@@ -199,6 +201,52 @@ final class Mock {
     	
     	return result;
     }
+    
+    static List<Long> sucheArtikelIdsByPrefix(String artikelIdPrefix) {
+		int dateinameId = -1;
+    	if ("1".equals(artikelIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_1;
+    	}
+    	else if ("10".equals(artikelIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_10;
+    	}
+    	else if ("11".equals(artikelIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_11;
+    	}
+    	else if ("2".equals(artikelIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_2;
+    	}
+    	else if ("20".equals(artikelIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_20;
+    	}
+    	else {
+    		return Collections.emptyList();
+    	}
+    	
+    	final String jsonStr = read(dateinameId);
+		JsonReader jsonReader = null;
+    	JsonArray jsonArray;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonArray = jsonReader.readArray();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	
+    	final List<Long> result = new ArrayList<Long>(jsonArray.size());
+    	final List<JsonNumber> jsonNumberList = jsonArray.getValuesAs(JsonNumber.class);
+	    for (JsonNumber jsonNumber : jsonNumberList) {
+	    	final Long id = Long.valueOf(jsonNumber.longValue());
+	    	result.add(id);
+    	}
+    	
+    	Log.d(LOG_TAG, "ids= " + result.toString());
+    	
+    	return result;
+    }
 
     static List<String> sucheNachnamenByPrefix(String nachnamePrefix) {
     	if (TextUtils.isEmpty(nachnamePrefix)) {
@@ -282,4 +330,39 @@ final class Mock {
 	}
     
     private Mock() {}
+
+	public static HttpResponse<Artikel> sucheArtikelById(Long id) {
+    	if (id <= 0 || id >= 1000) {
+    		return new HttpResponse<Artikel>(HTTP_NOT_FOUND, "Kein Artikel gefunden mit ID " + id);
+    	}
+    	
+    	final String jsonStr = read(R.raw.mock_artikel);
+    	JsonReader jsonReader = null;
+    	JsonObject jsonObject;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonObject = jsonReader.readObject();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	
+    	final Artikel artikel = new Artikel();
+
+    	artikel.fromJsonObject(jsonObject);
+    	artikel.id = id;
+		
+    	final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_OK, jsonObject.toString(), artikel);
+    	return result;
+	}
+
+	public static HttpResponse<Artikel> createArtikel(Artikel artikel) {
+    	artikel.id = Long.valueOf(artikel.bezeichnung.length());  // Anzahl der Buchstaben des Nachnamens als emulierte neue ID
+    	Log.d(LOG_TAG, "createArtikel: " + artikel);
+    	Log.d(LOG_TAG, "createArtikel: " + artikel.toJsonObject());
+    	final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_CREATED, ARTIKEL_PATH + "/1", artikel);
+    	return result;
+	}
 }
